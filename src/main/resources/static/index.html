@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>One Page Wonder - Start Bootstrap Template</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom fonts for this template -->
+        <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="css/one-page-wonder.min.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <form method="post" action="http://localhost:4567/numbers" id="agregarNumbero" enctype='application/json'>
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+                <div class="container">
+                    <a class="navbar-brand" href="#">AREP-Calculadora</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    </button>
+                </div>
+            </nav>
+
+            <header class="masthead text-center text-white">
+                <div class="container">
+                    <h5 class="masthead-heading mb-0" style="color: indigo; font-size: 2.2em">Media y Desviación Estándar</h5>
+                    <form>
+                        <label for="fname" style="color: black">Ingrese un número</label>
+                        <input type="text" id="fname" name="fname">
+                        <a href="#" class="btn btn-primary rounded-pill mt-2" style="size: 1rem; padding:0 1rem; margin-top: 0">+</a>
+                    </form>
+                    <table>
+                        <tr>
+                            <td class="label">
+                                Numeros
+                            </td>
+                            <td>
+                                <input type="text" name="dato">
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" action="http://localhost:4567/numbers">
+                    
+                </div>
+                <!-- 
+                <div class="container" style="padding-top: 1rem">
+                    <a class="btn btn-primary btn-xl btnMedia">Learn More</a>
+                    <a class="btn btn-primary btn-xl btnDesviacion">Learn More</a>
+                </div>
+                -->
+            </header>
+
+
+
+            <!-- Bootstrap core JavaScript -->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+        </form>
+    </body>
+
+</html>

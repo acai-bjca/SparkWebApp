@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cines</title>
+        <meta charset="UTF-8">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+        <link rel="stylesheet" media="screen" href="css/estilo.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="resources/static/bootstrap-4.3.1-dist/css/boobootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <!--<body style="background-image: url('imagenes/fondo1.jpg'); background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: auto; background-color: mediumblue;">-->
+    <body style="background-image: url('imagenes/fondo2.jpg'); background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+        <div class="container-fluid">
+            <div class="row" style="height: 100%; margin-top: 2%;">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="width: 100%">
+                    <div style="text-align:center; margin-top: 10%;">
+                        <img src="imagenes/fondo.jpg" style="margin-left: auto; margin-right: auto;  display: block; height: 40%; width: 40%"/>
+                        <div style="text-align:center; margin-top: 20%;">                                
+                            <form>                                
+                                <label style="font-size: xx-large; color: white">Cine</label>
+                                <br><input id="txt_cine" type="text" name="nombreCine"><br><br>
+                                <button type="button" class="btn" onclick="app.buscarFunciones()">Buscar</button>
+                                <input id="btnMostrar" class="btn" type="button" value="Mostrar" onclick="mostrarSala()"/>  
+                                <table id="tablaFunciones" style="font-size: 18px; color: white; margin: 0 auto; padding: 1; margin-bottom: 30px; margin-top: 30px;">
+                                    <thead id="thead">                                        
+                                    </thead>
+                                    <tbody id="tb1">
+                                    </tbody>
+                                </table>           
+                                                              
+                                <table id="tablaSillas" style="font-size: 15px; margin: 0 auto; padding: 0; margin-top: 3%; margin-bottom: 40%;">
+                                    <thead>
+                                        <tr>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+
+                                    </tbody>
+                                </table>
+                                
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
