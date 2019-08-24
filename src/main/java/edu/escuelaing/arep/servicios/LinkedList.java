@@ -1,4 +1,4 @@
-package edu.escuelaing.arep.calculator;
+package edu.escuelaing.arep.servicios;
 
 /**
  * Una Lista enlazada es una agrupaci�n de nodos, de los

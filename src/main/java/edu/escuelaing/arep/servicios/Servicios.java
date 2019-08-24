@@ -1,10 +1,10 @@
-package edu.escuelaing.arep.calculator;
+package edu.escuelaing.arep.servicios;
 import java.io.*;
 /**
  *
  * @author Amalia
  */
-public class Ejercicio {
+public class Servicios {
     /**
      * readData Lee los datos de un archivo y crea una LinkedList con
      * los mismos.

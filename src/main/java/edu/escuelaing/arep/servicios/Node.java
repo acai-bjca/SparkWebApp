@@ -1,4 +1,4 @@
-package edu.escuelaing.arep.calculator;
+package edu.escuelaing.arep.servicios;
 
 /**
  * Un nodo es el elemento fundamental de una linkedList.
