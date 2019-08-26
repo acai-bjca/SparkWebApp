@@ -5,15 +5,15 @@
  */
 package edu.escuelaing.arep.spark;
 
-import edu.escuelaing.arep.servicios.LinkedList;
+import edu.escuelaing.arep.LinkedList;
 import static spark.Spark.*;
-import edu.escuelaing.arep.servicios.Servicios;
 import spark.*;
+import edu.escuelaing.arep.Ejercicio;
 
 public class SparkWebApp {
 
     private static LinkedList linkedList;
-    private static Servicios servicios;
+    private static Ejercicio servicios;
 
     
     public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class SparkWebApp {
         //staticFileLocation("/static");
         Spark.staticFiles.location("/static"); //para que abra automaticamente index.html
 
-        get("/hello", (request, response) -> "Hello Mundo", new JsonTransformer());
+        get("/hello", (request, response) -> "Hello Mundo");
 
         get("/hello/:name", (request, response) -> {
             return "Hello, " + request.params(":name");
@@ -31,32 +31,46 @@ public class SparkWebApp {
             response.redirect("index.html");
             return null;
         });
-        /*
-        get("/calculo",(req,resp)->answer(req,resp));
-
-        get("/calculadora", (request, response) -> answer(request, response));*/
-        //get("/index", (req, resp) -> pageIndex(req, resp));
-        //get("/calculo", (req, resp) -> Calculo(req, resp));
-        get("/results", (req, resp) -> answer(req, resp));
+        get("/calculations", (req, resp) -> calcular(req, resp));
     }
     
-    public static String answer(Request request, Response resp) {
+    /**
+     * calcular Devuelve una cadena con el html como respuesta de la petición enviada por el navegador
+     * @param request Petición enviada por el navegador, es decir calcular la media y desviación estándar de los números dados
+     * @param resp Respuesta del servidor
+     * @return código html con la respuesta de los calculos
+     */
+    public static String calcular(Request request, Response resp) {
+        /*Response: Respuesta o resultado que da el servidor a la petición enviada por el navegador*/
         String numeros = request.queryParams("datos");
         String[] numerosSplit = numeros.split(",");
         LinkedList linkedList = new LinkedList();
         for (String num : numerosSplit) {
             linkedList.addNode(Double.parseDouble(num));
         }
-        int length = linkedList.getLength();
         Double mean = servicios.calculateMean(linkedList);
         Double standardDeviation = servicios.calculateStandardDeviation(linkedList);
         String meanS = String.format("%.2f", mean);
         String standardDeviationS = String.format("%.2f", standardDeviation);
         String tabla = "";
-        for (int i = 0; i < length; i++) {
-            tabla += genTable(numerosSplit[i]);
+        return generateHtml(meanS, standardDeviationS, numerosSplit);
+    }
+    
+    /**
+     * generateHtml Génera el código html que será enviado al navegador como respuesta de su petición
+     * @param meanS Media calculada de los números dados
+     * @param standardDeviationS Desviación Estándar calculada de los números dados
+     * @param numerosSplit Números dados por el navegador
+     * @return String con código del html
+     */
+    private static String generateHtml(String meanS, String standardDeviationS, String[] numerosSplit){
+        String tabla = "";
+        for (int i = 0; i < numerosSplit.length; i++) {
+            tabla += "<li class=\"list-group-item\">"
+                + "<th class=\"list-group-item\">" + numerosSplit[i] + "</th>\n"
+                + "</li>\n";
         }
-
+        
         String respuesta = "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n"
                 + "\n"
@@ -111,13 +125,6 @@ public class SparkWebApp {
                 + "    </body>\n"
                 + "</html>";
         return respuesta;
-    }
-    
-    static String genTable(String num) {
-        return "<li class=\"list-group-item\">"
-                + "<th class=\"list-group-item\">" + num + "</th>\n"
-                + "</li>\n";
-
     }
 
     static int getPort() {
