@@ -7,19 +7,19 @@ package edu.escuelaing.arep.spark;
 
 import edu.escuelaing.arep.servicios.LinkedList;
 import static spark.Spark.*;
-import spark.Spark;
 import edu.escuelaing.arep.servicios.Servicios;
-import spark.Request;
-import spark.Response;
+import spark.*;
 
 public class SparkWebApp {
 
     private static LinkedList linkedList;
     private static Servicios servicios;
 
+    
     public static void main(String[] args) {
         port(getPort());
-        //Spark.staticFiles.location("/static");
+        //staticFileLocation("/static");
+        Spark.staticFiles.location("/static"); //para que abra automaticamente index.html
 
         get("/hello", (request, response) -> "Hello Mundo", new JsonTransformer());
 
@@ -27,104 +27,103 @@ public class SparkWebApp {
             return "Hello, " + request.params(":name");
         });
 
-        get("/home", (req, resp) -> iniciar(req, resp));
-        get("/results", (req, resp) -> answer(req, resp));
+        get("/home", (request, response) -> {
+            response.redirect("index.html");
+            return null;
+        });
         /*
-        after((request, response) -> {
-            response.type("application/json");
-        });*/
+        get("/calculo",(req,resp)->answer(req,resp));
 
+        get("/calculadora", (request, response) -> answer(request, response));*/
+        //get("/index", (req, resp) -> pageIndex(req, resp));
+        //get("/calculo", (req, resp) -> Calculo(req, resp));
+        get("/results", (req, resp) -> answer(req, resp));
     }
-
-    public static String iniciar(Request request, Response response) {
-        String htmlString = "<!doctype html>\n"
-                + "<html lang=\"en\">\n"
-                + "<head>\n"
-                + "    <meta charset=\"UTF-8\">\n"
-                + "    <meta name=\"viewport\"\n"
-                + "          content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\">\n"
-                + "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n"
-                + "    <title>Document</title>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + "    <br/>\n"
-                + "    <h2>Digite los numeros separados por comas</h2>\n"
-                + "    <form action=\"/results\">\n"
-                + "        <h3>Conjunto de datos numero 1</h3>\n"
-                + "        <input type=\"text\" placeholder=\"Numeros espaciados con ';'\" name=\"DataOne\">\n"
-                + "        <br><br><br>\n"
-                + "        <input type=\"submit\" value=\"Calcular\">\n"
-                + "\n"
-                + "    </form>\n"
-                + "\n"
-                + "</body>\n"
-                + "</html>";
-        return htmlString;
-    }
-
-    public static String answer(Request req, Response resp) {
-        String set1 = req.queryParams("DataOne");
-        String[] particion1 = set1.split(";");
+    
+    public static String answer(Request request, Response resp) {
+        String numeros = request.queryParams("datos");
+        String[] numerosSplit = numeros.split(",");
         LinkedList linkedList = new LinkedList();
-        for (String num : particion1) {
+        for (String num : numerosSplit) {
             linkedList.addNode(Double.parseDouble(num));
         }
         int length = linkedList.getLength();
-        //Calculo de desvicacion estandar
-        Double media = servicios.calculateMean(linkedList);
-        Double desviacionEstandar = servicios.calculateStandardDeviation(linkedList);
-
+        Double mean = servicios.calculateMean(linkedList);
+        Double standardDeviation = servicios.calculateStandardDeviation(linkedList);
+        String meanS = String.format("%.2f", mean);
+        String standardDeviationS = String.format("%.2f", standardDeviation);
         String tabla = "";
         for (int i = 0; i < length; i++) {
-            tabla += genTable("-", particion1[i]);
+            tabla += genTable(numerosSplit[i]);
         }
-        
-        String respuesta = "<!doctype html>\n"
+
+        String respuesta = "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n"
-                + "<head>\n"
-                + "    <meta charset=\"UTF-8\">\n"
-                + "    <meta name=\"viewport\"\n"
-                + "          content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\">\n"
-                + "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n"
-                + "    <title>Document</title>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + "    <h1>AREP-LAB 2</h1>\n"
                 + "\n"
-                + "    <h2>Los resultados se presentan a continuacion</h2>\n"
-                + "    <table>\n"
-                + "        <tr>\n"
-                + "            <th>Column 1</th>\n"
-                + "        </tr>\n"
-                + "        <tr>\n"
-                + "            <th>Conjuto de datos #1</th>\n"
-                + "        </tr>\n"
-                + tabla
-                + "    </table>\n"
+                + "    <head>\n"
+                + "        <title>Spark App</title>\n"
+                + "        <meta charset=\"utf-8\">\n"
+                + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n"
+                + "        <meta name=\"description\" content=\"\">\n"
+                + "        <meta name=\"author\" content=\"\">\n"
+                + "        <!-- Bootstrap core CSS -->\n"
+                + "        <link href=\"bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">\n"
+                + "        <!-- Custom fonts for this template -->\n"
+                + "        <link href=\"https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900\" rel=\"stylesheet\">\n"
+                + "        <!-- Custom styles for this template -->\n"
+                + "        <link href=\"css/one-page-wonder.min.css\" rel=\"stylesheet\">\n"
+                + "    </head>\n"
                 + "\n"
-                + "La media: " + String.format("%.2f", media) + "\n" + "<br>"
-                + "La desviacion estandar: " + String.format("%.2f", desviacionEstandar) + "\n" + "<br>"
+                + "    <body style=\"background-image: url('imagenes/fondo.jpg')\">\n"
+                + "        <form action=\"/results\" method=\"GET\">\n"
+                + "            <!-- Navigation -->\n"
+                + "            <nav class=\"navbar navbar-expand-lg navbar-dark navbar-custom fixed-top\">\n"
+                + "                <div class=\"container\">\n"
+                + "                    <a class=\"navbar-brand\" href=\"#\">AREP-Calculadora</a>\n"
+                + "                    <a class=\"navbar-brand\" href=\"#\">Amalia Alfonso</a>\n"
+                + "                    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n"
+                + "                    </button>\n"
+                + "                </div>\n"
+                + "            </nav>\n"
+                + "            <header class=\"masthead text-center text-white\">\n"
+                + "                <div class=\"container\" style=\"text-align:center;\">\n"
+                + "                    <h5 class=\"masthead-heading mb-0\" style=\"color: indigo; font-size: 3.2em\">Media y Desviación Estándar</h5>\n"
+                + "                    <br>\n"
+                + "                    <label style=\"color: black\">Números</label>\n"
+                + "                    <input type=\"text\" placeholder=\"Ejemplo: 3.5,69.1,1.2\" name=\"datos\"> \n"
+                + "                    <br>\n"
+                + "                    <br>\n"
+                + "                    <input type=\"submit\" class=\"btn btn-primary btn-xl\" value=\"Calcular\">\n"
+                + "                    <ul id=\"estiloLista\" class=\"list-group\">\n"
+                + "                         <li class=\"list-group-item\" style=\"background-color: rgb(51, 154, 219)\">Números</li>\n"                        
+                +                           tabla
+                + "                    </</ul>\n"
+                + "                    <br>\n"
+                + "                     <h3 class=\"masthead-heading mb-0\" style=\"color: black; font-size: 1.2em\"> Media = "+meanS+"</h3>\n"
+                + "                     <h3 class=\"masthead-heading mb-0\" style=\"color: black; font-size: 1.2em\"> Desviación Estándar = "+standardDeviationS+"</h3>\n"
+                + "                </div>\n"
+                + "            </header>\n"
                 + "\n"
-                + "\n"
-                + "\n"
-                + "</body>\n"
+                + "            <!-- Bootstrap core JavaScript -->\n"
+                + "            <script src=\"vendor/jquery/jquery.min.js\"></script>\n"
+                + "            <script src=\"bootstrap/js/bootstrap.bundle.min.js\"></script>\n"
+                + "        </form>\n"
+                + "    </body>\n"
                 + "</html>";
         return respuesta;
     }
-
-    static String genTable(String num1, String num2) {
-        return "<tr>\n"
-                + "<th>" + num1 + "</th>\n"
-                + "</tr>\n";
+    
+    static String genTable(String num) {
+        return "<li class=\"list-group-item\">"
+                + "<th class=\"list-group-item\">" + num + "</th>\n"
+                + "</li>\n";
 
     }
 
     static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
-
         }
-        linkedList = new LinkedList();
         return 4567; //returns default port if heroku-port isn't set (i.e.on localhost)
     }
 }
