@@ -1,6 +1,6 @@
 ## Spark App 
 
-En este repositorio, se implementó una aplicación web con Spark desplegada en Heroku. Esta aplicación hace uso de un repositorio, antes creado, Ejercicio-1-AREP, el cual calcula la media y la desviación estándar, haciendo uso de una linked list, el cual puede encotnrar en <>.
+En este repositorio, se implementó una aplicación web con Spark desplegada en Heroku. Esta aplicación hace uso de un repositorio, antes creado, Ejercicio-1-AREP, el cual calcula la media y la desviación estándar, haciendo uso de una linked list, el cual puede encontrar en <https://github.com/acai-bjca/Ejercicio-1-AREP.git>.
 
 El link de la aplicación es: <https://sparkwebarep.herokuapp.com/>
 
