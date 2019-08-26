@@ -22,11 +22,14 @@ Si desea usar éste repositorio como librería en su proyecto, realice los sigui
 • Descargue o clone él repositorio SparkWebApp: <https://github.com/acai-bjca/SparkWebApp.git>
 
 • Agregue la siguiente dependencia al pom de su proyecto:
+``` xml
  <dependency>
 	<groupId>edu.escuelaing.arep</groupId>
     <artifactId>SparkWebApp</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
+```
+
 • Importe el proyecto en la clase que lo requiera:
 import edu.escuelaing.arep.*;
 
