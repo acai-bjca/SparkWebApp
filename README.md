@@ -13,7 +13,7 @@ ___
 ___
 ### Documentación
 
-Para leer la documentación diríjase a: <https://acai-bjca.github.io/SparkWebApp/src/main/resources/documentacion/site/apidocs\edu\escuelaing\arep\spark>
+Para leer la documentación diríjase a: <https://acai-bjca.github.io/SparkWebApp/src/main/resources/documentacion/apidocs/edu/escuelaing/arep/spark>
 
 ___
 ### Uso del proyecto como librería
